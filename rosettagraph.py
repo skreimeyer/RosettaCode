@@ -28,7 +28,8 @@ loc_data = [x[0] for x in loc_data] # drop our means
 # Modify the dataframe to allow the addition of a chart for python
 medians = df.groupby('task').median()
 languages = {'Python':'darkgreen','C':'orange','C++':'blue','Java':'purple',
-            'JavaScript':'yellow','R':'red','Haskell':'gray','C#':'pink'}
+            'JavaScript':'yellow','R':'red','Haskell':'gray','Mathematica':'pink',
+            'Clojure':'lavender'}
 for lang in languages:
     langdf = df[df['name']==lang].set_index('task')
     langdf = langdf[~langdf.index.duplicated(keep='first')]
