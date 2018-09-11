@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 import numpy as np
 import pdb
 from scipy.interpolate import UnivariateSpline
+from scipy import signal
 
 """
 Import data from rosettacode.db and generate graphs to help us visualize how
@@ -28,8 +29,8 @@ loc_data = [x[0] for x in loc_data] # drop our means
 # Modify the dataframe to allow the addition of a chart for python
 medians = df.groupby('task').median()
 languages = {'Python':'darkgreen','C':'orange','C++':'blue','Java':'purple',
-            'JavaScript':'yellow','R':'red','Haskell':'gray','Mathematica':'pink',
-            'Clojure':'lavender'}
+            'JavaScript':'yellow','R':'red','Haskell':'cyan','Mathematica':'magenta',
+            'Clojure':'lavender','Rust':'brown'}
 for lang in languages:
     langdf = df[df['name']==lang].set_index('task')
     langdf = langdf[~langdf.index.duplicated(keep='first')]
@@ -55,12 +56,12 @@ x = [np.average(geom._x) for geom in box['medians']]
 # Plot regression curves for specific languages
 for lang in languages:
     # polynomial regression
-    curve = np.poly1d(np.polyfit(x,medians[lang],3))
-    ax1.plot(x,curve(x),color=languages[lang],alpha=0.75,label=lang,lw=3)
-    # splines
-    # spl = UnivariateSpline(x,medians[lang])
-    # spl.set_smoothing_factor(0.5)
-    # ax1.plot(x,spl(x),color=languages[lang],alpha=0.75,label=lang,lw=3)
+    #curve = np.poly1d(np.polyfit(x,medians[lang],3))
+    #ax1.plot(x,curve(x),color=languages[lang],alpha=0.75,label=lang,lw=3)
+    # savitzky-golay filtering
+    curve = signal.savgol_filter(medians[lang],51,3)
+    ax1.plot(x,curve,color=languages[lang],alpha=0.75,label=lang,lw=3)
+
 ax1.set_xticklabels("") # Remove x-axis tick labels
 ax1.grid(True,axis='y')
 plt.legend(loc=2,fontsize=25)
