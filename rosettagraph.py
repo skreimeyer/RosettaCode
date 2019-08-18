@@ -29,14 +29,16 @@ loc_data = [x[0] for x in loc_data]  # drop our means
 # Modify the dataframe to allow the addition of a chart for python
 medians = df.groupby("task").median()
 languages = {
-        "COBOL":"green",
-        "Assembly":"silver",
-        "Fortran":"indigo",
-        "Ada":"orchid",
-        "Pascal":"yellow",
-        "C":"coral",
-        "APL":"cornflowerblue",
-        "Scheme":"red",
+        "Java":"purple",
+        "C":"orange",
+        "Python":"green",
+        "C++":"blue",
+        "C#":"lightgreen",
+        "Visual Basic":"cyan",
+        "PHP":"cornflowerblue",
+        "Objective-C":"darkgray",
+        "JavaScript":"yellow",
+        "Ruby":"red",
 
 }
 for lang in languages:
@@ -50,7 +52,7 @@ medians = medians.fillna(method="ffill")
 # Create boxplots
 # pdb.set_trace()
 print("Plotting . . .")
-fig1, ax1 = plt.subplots(figsize=(48, 24), dpi=255)
+fig1, ax1 = plt.subplots(figsize=(8, 4), dpi=255)
 ax1.set_title(
     "Distributions of Program Length by Average Task Complexity", size=80
 )
@@ -78,4 +80,4 @@ ax1.set_xticklabels("")  # Remove x-axis tick labels
 ax1.grid(True, axis="y")
 plt.legend(loc=2, fontsize=25)
 print("Saving plot")
-fig1.savefig("Results/more-civilized-age.png")  # save
+fig1.savefig("top-10.png")  # save
